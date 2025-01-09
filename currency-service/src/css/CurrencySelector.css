@@ -1,0 +1,82 @@
+.currency-selector_choise
+{
+
+    display: flex; /* Включаем Flexbox */
+    flex-direction: row; /* Располагаем элементы по горизонтали */
+    gap: 50px; /* Расстояние между элементами */
+    justify-content: space-evenly; /* Равномерное распределение элементов */
+    align-items: center; /* Выравниваем элементы по вертикали */
+}
+.currency-selector {
+    /*max-width: 400px; !* Ограничиваем ширину контейнера *!*/
+    width: 100%;
+    margin: 10px auto; /* Центрируем контейнер */
+    padding: 150px 20px; /* Добавляем отступы */
+    border: 1px solid #ccc; /* Обводка контейнера */
+    border-radius: 8px; /* Закругленные углы */
+    background-color: #f9f9f9; /* Фоновый цвет */
+    display: flex; /* Включаем Flexbox */
+    flex-direction: column; /* Располагаем элементы по горизонтали */
+    gap: 50px; /* Расстояние между элементами */
+    justify-content: space-evenly; /* Равномерное распределение элементов */
+    align-items: center; /* Выравниваем элементы по вертикали */
+
+}
+
+.response-table {
+    max-width: 100%; /* Таблица растягивается на всю ширину */
+    overflow-x: auto; /* Горизонтальная прокрутка */
+    margin-top: 20px;
+    text-align: center;
+}
+
+.response-table table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Минимальная ширина таблицы для горизонтальной прокрутки */
+}
+
+.response-table th,
+.response-table td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+.response-table-container {
+    max-height: 300px; /* Ограничиваем высоту контейнера таблицы */
+    overflow-y: auto; /* Вертикальная прокрутка */
+}
+
+
+h2 {
+    text-align: center; /* Центруем заголовок */
+}
+
+.checkbox-container {
+    max-height: 200px; /* Ограничиваем высоту контейнера с чекбоксами */
+    overflow-y: auto; /* Добавляем прокрутку, если чекбоксы выходят за пределы */
+    margin-bottom: 20px; /* Отступ снизу */
+}
+
+label {
+    display: block; /* Каждый чекбокс на новой строке */
+    margin: 5px 0; /* Отступы между чекбоксами */
+}
+
+.filter-choise{
+    display: flex; /* Включаем Flexbox */
+    gap: 50px; /* Расстояние между элементами */
+    flex-direction: column; /* Располагаем элементы по вертикали */
+}
+.single-choise{
+    display: flex; /* Включаем Flexbox */
+    flex-direction: column; /* Располагаем элементы по вертикали */
+    gap: 50px; /* Расстояние между элементами */
+}
+.all-choise{
+    display: flex; /* Включаем Flexbox */
+    flex-direction: column; /* Располагаем элементы по вертикали */
+    gap: 50px; /* Расстояние между элементами */
+}

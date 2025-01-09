@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: RequestCurrecyService
+
+  kafka:
+    bootstrap-servers: localhost:9092 # Kafka Broker
+    consumer:
+      group-id: kafka-server-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      transactional-id: transactional-id-${random.value} # Генерация случайного значения
+      enable-idempotence: true # Включение идемпотентности
+    topics:
+      fetch-currency: fetch-currency-topic
+      query-currency: query-currency-topic
+      response-currency: response-topic;
+      dead-letter: dead-letter-topic
+    retry:
+      max-attempts: 5
+      backoff-period: 2000
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: oew
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none  # Отключить автоматическое создание таблиц
+    show-sql: true  # (опционально) Включить вывод SQL-запросов в консоль для отладки
+
+server:
+  port: 8083
+
+logging:
+  #  level:
+  #    org.springframework.kafka: ERROR
+  #    com.currency.exchange.kafka: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %level - %logger{36} - %msg%n"

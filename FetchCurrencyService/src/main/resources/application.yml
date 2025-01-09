@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: FetchCurrencyService
+
+  kafka:
+    bootstrap-servers: localhost:9092 # Адрес Kafka Broker
+    consumer:
+      group-id: kafka-server-group # Группа потребителей для чтения сообщений
+      auto-offset-reset: earliest # Считать с начала, если не найдено смещения
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer # Десериализация ключа
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer # Десериализация значения
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer # Сериализация ключа
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer # Сериализация значения
+      transactional-id: transactional-id-${random.value} # Генерация случайного значения
+      enable-idempotence: true # Включение идемпотентности
+    topics:
+      fetch-currency: fetch-currency-topic # Топик для данных из внешнего API
+      query-currency: query-currency-topic # Топик для данных из базы данных
+      response-currency: response-topic # Топик для ответов от микросервисов
+      dead-letter: dead-letter-topic # Топик для ошибок
+    retry:
+      max-attempts: 5  # Максимальное количество попыток
+      backoff-period: 2000  # Задержка между попытками в миллисекундах
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: oew
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        hbm2ddl.auto: update
+
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/MyMongoDB
+
+server:
+  port: 8082
+
+
+logging:
+#  level:
+#    org.springframework.kafka: ERROR
+#    com.currency.exchange.kafka: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %level - %logger{36} - %msg%n"

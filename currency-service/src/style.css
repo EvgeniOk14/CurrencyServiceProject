@@ -1,0 +1,101 @@
+/* Основной стиль страницы */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column; /* Элементы идут колонкой: header, main, footer */
+  height: 100vh;          /* Высота страницы занимает весь экран */
+  width: 100%;            /* Ширина страницы на 100% */
+  background-color: #242424;
+  box-sizing: border-box; /* Учитываем padding и border */
+}
+
+/* Основной контейнер */
+#app {
+  flex: 1;                /* Растягиваем #app на оставшееся место */
+  display: flex;
+  flex-direction: column; /* Колонка внутри: header, main, footer */
+  align-items: stretch;   /* Растягиваем элементы по ширине */
+  justify-content: space-between; /* Оставляем пространство между header, main и footer */
+  box-sizing: border-box;
+}
+
+/* Заголовок */
+header, footer {
+  width: 100%;            /* Растягиваем на всю ширину */
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  box-sizing: border-box; /* Учитываем отступы */
+}
+
+/* Основное содержимое */
+main {
+  flex: 1;                /* Растягиваем main, чтобы занять оставшееся место */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Контент внутри начинается сверху */
+  align-items: center;         /* Центрируем контент горизонтально */
+  /*padding: 150px;*/
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: auto;              /* Добавляем прокрутку для длинного контента */
+}
+
+/* Стиль для кнопок */
+button {
+  border-radius: 20px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Стиль для ссылок */
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+  .filter-button{
+    color: red;
+    background-color: yellow;
+  }
+  .single-button{
+    color: red;
+    background-color: yellow;
+  }
+  .all-button{
+    color: red;
+    background-color: yellow;
+  }
+
+}

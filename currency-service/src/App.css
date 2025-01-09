@@ -1,0 +1,27 @@
+/* Стиль для таблицы */
+table {
+    margin: 20px 0;
+    border-collapse: collapse;
+    width: 100%; /* Заставляем таблицу растягиваться на всю ширину */
+    table-layout: fixed; /* Равномерное распределение ширины */
+    overflow-x: auto;
+}
+
+/* Адаптивный стиль таблицы */
+.table-container {
+    max-width: 100%;      /* Таблица не выйдет за пределы экрана */
+    overflow-x: auto;     /* Добавляем горизонтальную прокрутку */
+    margin-top: 20px;
+}
+
+.table-container table {
+    width: 100%;          /* Таблица растягивается на ширину контейнера */
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid black;
+}
+

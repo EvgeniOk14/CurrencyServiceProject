@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: KafkaServer
+
+  api:
+    gateway-url: http://localhost:8080/api/gateway/response/toFrontend
+
+  kafka:
+    bootstrap-servers: localhost:9092 # Адрес Kafka Broker
+    consumer:
+      group-id: kafka-server-group # Группа потребителей для чтения сообщений
+      auto-offset-reset: earliest # Считать с начала, если не найдено смещения
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer # Десериализация ключа
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer # Десериализация значения
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer # Сериализация ключа
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer # Сериализация значения
+      transactional-id: transactional-id-${random.value} # Генерация случайного значения
+      enable-idempotence: true # Включение идемпотентности
+    topics:
+      fetch-currency: fetch-currency-topic # Топик для данных из внешнего API
+      query-currency: query-currency-topic # Топик для данных из базы данных
+      response-currency: response-topic # Топик для ответов от микросервисов
+    retry:
+      max-attempts: 5  # Максимальное количество попыток
+      backoff-period: 2000  # Задержка между попытками в миллисекундах
+
+server:
+  port: 8081 # Порт, на котором работает Kafka Server
+
+logging:
+  level:
+    org.springframework.kafka: ERROR
+    com.currency.exchange.kafka: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %level - %logger{36} - %msg%n"  # Формат логов для консоли
+
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

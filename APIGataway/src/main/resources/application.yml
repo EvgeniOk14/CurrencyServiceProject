@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: APIGateway
+  cloud:
+    gateway:
+      default-filters:
+        - Timeout=5000
+      routes:
+        - id: getAllCurrencies
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/gateway/currencies/all
+
+        - id: getSingleCurrency
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/gateway/currencies/single/{currencyCode}
+
+        - id: getFilterCurrencies
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/gateway/currencies/filter/{filter}
+
+        - id: postCurrencyResponse
+          uri: http://localhost:5174
+          predicates:
+            - Path=/api/gateway/currencies/response
+
+server:
+  port: 8080
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %level - %logger{36} - %msg%n"
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
