@@ -65,6 +65,33 @@
 			<version>2.7.0</version>
 		</dependency>
 
+
+		<!-- работа с метриками micrometer-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!-- работа с метриками micrometer-->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-core</artifactId>
+			<version>1.12.2</version>
+		</dependency>
+		<!--, а также для мониторинга работы с Prometheus-->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>1.12.2</version>
+		</dependency>
+
+		<!--зависимость для Eureka-server-->
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-server -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+			<version>3.1.4</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

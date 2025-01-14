@@ -42,3 +42,9 @@ logging:
   #    com.currency.exchange.kafka: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %level - %logger{36} - %msg%n"
+
+  cloud:
+    discovery:
+      client:
+        service-url:
+          defaultZone: http://localhost:8080/eureka/  # URL Eureka Server
