@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * Класс SwaggerConfig:
  *
  * Конфигурационный класс для настройки документации API с использованием Swagger и OpenAPI.
- * Этот класс конфигурирует и настраивает отображение информации о Task Management API.
+ * Этот класс конфигурирует и настраивает отображение информации о APIGateway
  *
  * Основные функции:
  * - Настройка информации о API, включая название, версию и описание.
@@ -42,9 +42,9 @@ public class SwaggerConfig
     {
         return new OpenAPI() // Создание нового объекта OpenAPI для настройки Swagger
                 .info(new Info() // Добавление информации о API
-                        .title("Task Management API") // Название API
+                        .title("APIGateway") // Название API
                         .version("1.0") // Версия API
-                        .description("API documentation for Task Management System")); // Описание API
+                        .description("API documentation for APIGateway")); // Описание API
 
     }
 }

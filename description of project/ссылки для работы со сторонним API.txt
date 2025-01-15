@@ -1,6 +1,6 @@
 https://manage.exchangeratesapi.io/login?u=https%3A%2F%2Fmanage.exchangeratesapi.io%2Fdashboard%3Flogged_in%3D1  <--- вход на сайт стороннего API
 
-https://manage.exchangeratesapi.io/dashboard  <--- ключ 1
+https://manage.exchangeratesapi.io/dashboard  <--- ключ для получения доступа к стороннему API 
 
-https://manage.exchangeratesapi.io/dashboard <--- ключ 2
+
 
