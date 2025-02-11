@@ -72,6 +72,10 @@ public class CurrencyController
      * для получения всех доступных курсов валют от стороннего API.
      *
      * @return ResponseEntity<String> - объект ResponseEntity, содержащий ответ с сообщением на API Gateway.
+     *
+     * - String response = future.get(10, TimeUnit.SECONDS); Получение результата из CompletableFuture.
+     *   Метод get блокирует текущий поток на до 10 секунд, ожидая завершения асинхронной операции.
+     *   Если результат не будет получен в течение этого времени, будет выброшено исключение
      */
     @GetMapping("/all")
     public ResponseEntity<String> getAllCurrencies()
@@ -91,6 +95,7 @@ public class CurrencyController
 
         }
     }
+
 
     /**
      * Метод getSingleCurrency:
@@ -149,3 +154,15 @@ public class CurrencyController
     }
     //endRegion
 }
+
+//    возможный вариант без блокирования потока
+//    @GetMapping("/all")
+//    public CompletableFuture<ResponseEntity<String>> getAllCurrencies1() {
+//        System.out.println("работает метод getAllCurrencies ALL ..............");
+//
+//        return currencyRequestService.processRequest("ALL", "")
+//                .thenApply(response -> ResponseEntity.status(HttpStatus.OK)
+//                        .body("По заданным параметрам успешно получен ответ: " + response))
+//                .exceptionally(e -> ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                        .body("По заданным параметрам не возможно получить ответ: " + e.getMessage()));
+//    }

@@ -52,6 +52,9 @@ public class KafkaConfig
     private static final String GROUP_ID = "kafka-server-group"; // Группа Consumer'ов
     private static final Logger logger =  LoggerFactory.getLogger(KafkaListenerService.class); // логирование
 
+    @Value("${spring.kafka.producer.transactional-id}")
+    private String transactionalId; // Получаем transactional-id из конфигурации
+
     @Value("${spring.kafka.retry.max-attempts}")
     private int maxAttempts;  // Чтение из конфигурации максимального числа попыток
 
@@ -68,11 +71,11 @@ public class KafkaConfig
     @Bean
     public Map<String, Object> producerConfigs()
     {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BROKER); // Адрес Kafka брокера
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class); // Сериализация ключа
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class); // Сериализация значения
-        props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "transactional-id"); // Важно для транзакций
+        Map<String, Object> props = new HashMap<>(); // объект типа Map, для хранения настроек продюсера Kafka (String — ключи, представляющие названия конфигураций и Object — значения, которые могут быть разного типа, в зависимости от конфигурации.)
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BROKER); // BOOTSTRAP_SERVERS_CONFIG - это адрес Kafka брокера "bootstrap.servers" к которому будет подключаться Producer. И KAFKA_BROKER - это "localhost:9092"
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class); // Константа, указывающая на класс, который будет использоваться для Сериализация ключа перед их отправкой в Kafka и StringSerializer.class - Класс сериализатора, который преобразует ключи сообщений в строковый формат
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class); // ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG для сериализация значений сообщений перед отправкой их в Kafka и StringSerializer.class - Класс сериализатора, который преобразует ключи сообщений в строковый формат
+        props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, transactionalId); //ProducerConfig.TRANSACTIONAL_ID_CONFIG Константа, указывающая на конфигурацию, необходимую для включения поддержки транзакций в Kafka Produce и transactionalId - строка, представляющая уникальный идентификатор транзакции. Чаще всего это значение должно быть уникальным для каждого Producer, чтобы Kafka мог отслеживать транзакции
         return props;
     }
 
@@ -131,25 +134,29 @@ public class KafkaConfig
      *
      * @return настроенный экземпляр {@link RetryTemplate} с заданной политикой повторных попыток (5штук)
      *         и задержкой между попытками(2секунды).
+     *
+     *   - RetryTemplate — это класс из Spring Framework, который упрощает реализацию механизма повторных попыток
+     *     для выполнения операций, которые могут завершиться неудачей, например, при взаимодействии с внешними сервисами
+     *     или базами данных.
      */
     @Bean
     public RetryTemplate retryTemplate()
     {
-        SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();
-        retryPolicy.setMaxAttempts(maxAttempts);  // Максимальное количество попыток
-        logger.info("Max attempts for retry set to: {}", maxAttempts);
+        SimpleRetryPolicy retryPolicy = new SimpleRetryPolicy();  // объект SimpleRetryPolicy определяет правила для повторных попыток
+        retryPolicy.setMaxAttempts(maxAttempts);  // Максимальное количество попыток 5
+        logger.info("Max attempts for retry set to: {}", maxAttempts); // логирование максимальных попыток
 
-        ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy();
-        backOffPolicy.setInitialInterval(backOffPeriod); // Начальный интервал 1 секунда
-        logger.info("Backoff period for retry set to: {} ms", backOffPeriod);
-        backOffPolicy.setMultiplier(2.0); // Умножитель для увеличения интервала
+        ExponentialBackOffPolicy backOffPolicy = new ExponentialBackOffPolicy(); // объект ExponentialBackOffPolicy определяет политику ожидания между попытками.
+        backOffPolicy.setInitialInterval(backOffPeriod); // Начальный интервал 2 секунды
+        logger.info("Backoff period for retry set to: {} ms", backOffPeriod); // логирование интервала ожидания
+        backOffPolicy.setMultiplier(2.0); // Умножитель для увеличения интервала между попытками
         backOffPolicy.setMaxInterval(5000); // Максимальный интервал между попытками
 
-        RetryTemplate retryTemplate = new RetryTemplate();
-        retryTemplate.setRetryPolicy(retryPolicy);
-        retryTemplate.setBackOffPolicy(backOffPolicy);
+        RetryTemplate retryTemplate = new RetryTemplate(); // Создается экземпляр RetryTemplate, который будет использоваться для выполнения операций с механизмом повторных попыток.
+        retryTemplate.setRetryPolicy(retryPolicy); // Устанавливаются ранее созданные политики для повторных попыток
+        retryTemplate.setBackOffPolicy(backOffPolicy); // Устанавливаются ранее созданные политики для ожидания
 
-        return retryTemplate;
+        return retryTemplate; //  возвращает настроенный объект RetryTemplate
     }
 
     /**
@@ -162,6 +169,7 @@ public class KafkaConfig
     public NewTopic fetchCurrencyTopic()
     {
         return TopicBuilder.name("fetch-currency-topic").build(); // Создаем и возвращаем тему
+        // можно задать количество партиций и репликаций через: TopicBuilder.name("fetch-currency-topic").partitions(3).replicas(1).build()
     }
 
     /**

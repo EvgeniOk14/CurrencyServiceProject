@@ -3,6 +3,7 @@ import axios from 'axios';
 import ResponseTable from './ResponseTable';  // Импортируем компонент
 import '../css/CurrencySelector.css';
 
+// Определение компонента
 const CurrencySelector = () => {
     const [selectedCurrencies, setSelectedCurrencies] = useState([]);
     const [singleCurrency, setSingleCurrency] = useState('');
@@ -10,6 +11,7 @@ const CurrencySelector = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+        // Массив кодов валют
         const currencyCodes = [
         "FJD", "MXN", "STD", "LVL", "SCR", "CDF", "BBD", "HNL", "UGX", "ZAR",
         "CUC", "BSD", "SDG", "IQD", "CUP", "GMD", "TWD", "RSD", "MYR", "FKP",
@@ -30,6 +32,7 @@ const CurrencySelector = () => {
         "AOA", "PLN", "SBD", "MWK", "MGA", "BAM", "EGP", "NIO", "NZD", "BRL"
     ];
 
+    // Изменение состояния чекбоксов
     const handleCheckboxChange = (currency) => {
         setSelectedCurrencies(prevSelected => {
             if (prevSelected.includes(currency)) {
@@ -40,23 +43,22 @@ const CurrencySelector = () => {
         });
     };
 
+    // Запрос к API
     const handleRequest = (type, params = '') => {
         setLoading(true);
         setError(null);
-
         const urlMap = {
             ALL: 'http://localhost:8080/api/gateway/currencies/all',
             FILTER: `http://localhost:8080/api/gateway/currencies/filter/${params}`,
             SINGLE: `http://localhost:8080/api/gateway/currencies/single/${params}`,
         };
-
         const url = urlMap[type];
-        if (!url) {
+        if (!url)
+        {
             console.error("Неверный тип запроса:", type);
             setLoading(false);
             return;
         }
-
         axios.get(url)
             .then(response => {
                 console.log("Ответ успешно получен от сервера:", response.data);
@@ -64,18 +66,24 @@ const CurrencySelector = () => {
                 let data;
 
                 // Если ответ - строка, а не JSON, пытаемся извлечь JSON из строки
-                if (typeof response.data === 'string') {
+                if (typeof response.data === 'string')
+                {
                     const jsonString = response.data.substring(response.data.indexOf("{"), response.data.length);
 
-                    try {
+                    try
+                    {
                         data = JSON.parse(jsonString); // Преобразуем строку в JSON
                         console.log("Parsed data:", data);
-                    } catch (error) {
+                    }
+                    catch (error)
+                    {
                         console.error("Ошибка при парсинге данных:", error);
                         setError("Получены некорректные данные от сервера");
                         return;
                     }
-                } else {
+                }
+                else
+                {
                     // Если ответ уже в формате JSON
                     data = response.data;
                 }
@@ -97,7 +105,6 @@ const CurrencySelector = () => {
                     date,
                     tableData,
                 });
-
                 handlePostResponse(data); // Отправляем на сервер
             })
             .catch(error => {
@@ -109,6 +116,7 @@ const CurrencySelector = () => {
             });
     };
 
+    // Обработка ответа и отправка данных
     const handlePostResponse = (responseBody) => {
         axios.post('http://localhost:8080/api/gateway/response', responseBody)
             .then(res => {
@@ -119,6 +127,7 @@ const CurrencySelector = () => {
             });
     };
 
+    // Возвращаемый JSX
     return (
         <div className="currency-selector">
             <div className="currency-selector_choise">

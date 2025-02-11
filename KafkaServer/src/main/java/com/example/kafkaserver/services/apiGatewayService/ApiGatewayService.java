@@ -97,7 +97,8 @@ public class ApiGatewayService
                     .toFuture(); // Преобразуем Mono в CompletableFuture
         }).handle((response, ex) -> {
             // Обрабатываем результат выполнения
-            if (ex != null) {
+            if (ex != null)
+            {
                 // Логируем ошибку, если все попытки завершились неудачей
                 logger.error("Ошибка {}, при отправке сообщения {} в API Gateway: ", ex.getMessage(), message);
                 return ResponseEntity.status(HttpStatus.CONFLICT) // Возвращаем статус конфликта
@@ -156,7 +157,8 @@ public class ApiGatewayService
                     .toFuture(); // Преобразуем Mono в CompletableFuture
         }).handle((result, ex) -> {
             // Обрабатываем результат выполнения
-            if (ex != null) {
+            if (ex != null)
+            {
                 // Логируем ошибку, если все попытки завершились неудачей
                 logger.error("Ошибка при отправке сообщения об ошибке в API Gateway: {}", ex.getMessage());
             }

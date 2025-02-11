@@ -86,7 +86,8 @@ public class CurrencyRequestService
             {
             // Отправляем сообщение в Kafka:
             sendMessageToKafka.sendMessageToKafka(requestId, message, responseFuture); // используем метод sendMessageToKafka сервиса SendMessageToKafka для отправки сообщения в топик кафка
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 responseFuture.completeExceptionally(e); // Обработка ошибок
             }

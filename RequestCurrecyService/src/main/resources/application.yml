@@ -12,7 +12,7 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      transactional-id: transactional-id-${random.value} # Генерация случайного значения
+      transactional-id: request-currency-transactional-id-${random.value} # Генерация случайного значения
       enable-idempotence: true # Включение идемпотентности
     topics:
       fetch-currency: fetch-currency-topic
